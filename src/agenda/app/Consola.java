@@ -1,6 +1,5 @@
 package agenda.app;
 
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**
@@ -8,8 +7,7 @@ import java.util.Scanner;
  */
 public class Consola {
 
-	// Faltaba agregar el atributo Scanner
-    private Scanner sc;
+	private Scanner sc;
 
 	/**
      * Crea un objeto Consola e inicializa el lector de entrada estándar.
@@ -55,12 +53,9 @@ public class Consola {
      * @return Texto introducido por el usuario, sin espacios iniciales ni finales.
      */
     public String leerTexto(String mensaje) {
-    	String texto;
-    		
-    	escribir(mensaje);
-    	texto = sc.nextLine().trim();
-    	
-    	return texto;
+        System.out.print(mensaje);
+        String texto = sc.nextLine();
+        return texto.trim();
     }
 
     /**
@@ -72,17 +67,16 @@ public class Consola {
      * @return Texto no vacío introducido por el usuario.
      */
     public String leerTextoNoVacio(String mensaje) {
-    		String texto;
-    		
-    	    do {
-    	        escribir(mensaje);
-    	        texto = sc.nextLine().trim();
-    	        if (texto.isEmpty()) {
-    	            escribirLinea("Error: el texto no puede estar vacío.");
-    	        }
-    	    } while (texto.isEmpty());
-		
-    	    return texto;
+        String texto = "";
+        while (texto.isBlank()) {
+            System.out.print(mensaje);
+            texto = sc.nextLine();
+            texto = texto.trim();
+            if (texto.isBlank()) {
+                System.out.println("ERROR - No puede estar vacío.");
+            }
+        }
+        return texto;
     }
 
     /**
@@ -93,23 +87,22 @@ public class Consola {
      * @return Número entero introducido por el usuario.
      */
     public int leerEntero(String mensaje) {
-        	int numero = 0;
-        	boolean error;
-        	
-    	    do {
-    	        try {
-    	            escribir(mensaje);
-    	            numero = sc.nextInt();
-    	            sc.nextLine();
-    	            error = false;
-    	        } catch (InputMismatchException e) {
-    	            escribirLinea("Error: debes introducir un número entero válido.");
-    	            sc.nextLine();
-    	            error = true;   	            
-    	        }
-    	    } while (error);
-        	
-        	return numero;
+        int numero = 0;
+        boolean ok = false;
+
+        while (!ok) {
+            System.out.print(mensaje);
+            String texto = sc.nextLine();
+            texto = texto.trim();
+
+            try {
+                numero = Integer.parseInt(texto);
+                ok = true;
+            } catch (NumberFormatException e) {
+                System.out.println("ERROR - Introduce un número entero válido.");
+            }
+        }
+        return numero;
     }
 
     /**
@@ -122,14 +115,11 @@ public class Consola {
      * @return Número entero dentro del rango indicado.
      */
     public int leerEnteroRango(String mensaje, int min, int max) {
-        int numero = 0;
-        do {
-        		numero = leerEntero(mensaje);
-            if (numero < min || numero > max) {
-                escribirLinea("Error: el número debe estar entre " + min + " y " + max + ".");
-            }
-        } while (numero < min || numero > max);
-
+        int numero = leerEntero(mensaje);
+        while (numero < min || numero > max) {
+            System.out.println("ERROR - Debe estar entre " + min + " y " + max + ".");
+            numero = leerEntero(mensaje);
+        }
         return numero;
     }
 }

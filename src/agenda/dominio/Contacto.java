@@ -1,3 +1,4 @@
+
 package agenda.dominio;
 
 import java.util.ArrayList;
@@ -11,13 +12,23 @@ public class Contacto {
     private Direccion direccion;
     private List<Telefono> telefonos;
 
-    public Contacto(int id, String nombre, String apellidos, String email, Direccion direccion) {
+
+    Contacto(int id, String nombre, String apellidos, String email) {
         this.id = id;
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.email = email;
-        this.direccion = direccion;
         this.telefonos = new ArrayList<>();
+    }
+
+
+    public void definirDireccion(TipoVia tipoVia, int numero, String bloque, String escalera, String portal, String letra) {
+        this.direccion = new Direccion(tipoVia, numero, bloque, escalera, portal, letra);
+    }
+
+
+    public void agregarTelefono(String numero, TipoTelefono tipo) {
+        this.telefonos.add(new Telefono(numero, tipo));
     }
 
     public int getId() {

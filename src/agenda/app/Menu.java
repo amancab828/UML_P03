@@ -1,9 +1,8 @@
 package agenda.app;
 
-//TODO: Crear la clase Menu completa, con la documentación 
-//(fijaros en la clase Consola, en el UML y en el código que ya tenéis y estamos refactorizando).
-
 public class Menu {
+	//TODO: Crear la clase Menu completa, con la documentación 
+	//  (fijaros en la clase Consola, en el UML y en el código que ya tenéis y estamos refactorizando).
 	private Consola consola;
 	
 	public Menu(Consola consola) {
@@ -21,7 +20,6 @@ public class Menu {
 	}
 	
 	public int leerOpcion() {
-	    int opcion = consola.leerEnteroRango("Elige una opción: ", 0, 5);
-	    return opcion;
+		return consola.leerEnteroRango("Eliga una opción", 0, 5);
 	}
 }
